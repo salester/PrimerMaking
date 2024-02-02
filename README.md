@@ -25,6 +25,8 @@ Copy the entire sequence into a .txt file that has "Sequence" on the first line 
 
 CC Founder Variants link: https://churchilllab.jax.org/foundersnps/search
 
+Select Release = REL-2021 SNP
+
 Click "Need help finding a gene?" to use the gene's name to get its Ensembl ID, which you can click on paste it into the search box and click "Go"
 
 Click "Download Data"
