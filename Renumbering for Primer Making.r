@@ -78,7 +78,7 @@ to_avoid <- paste(to_avoid, collapse = ", ")
 #Output a CSV with all relevant information
 #This is all just to make the final document easier to read
 geneName <- unique(variants$Gene)
-results <- data.frame(Result = c("Sequence For IDT", "SNPs To Avoid", "Exon Junctions"),
+results <- data.frame(Result = c("Sequence For IDT", "Excluded Region List/SNPs to Avoid", "Target Region List/Exon Junctions"),
                         Data = c(sequenceForIDT, to_avoid, junctions))
 
 results <- results %>% add_row(Result = "", Data = "", .after = 1)
