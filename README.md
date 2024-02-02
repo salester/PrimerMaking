@@ -31,17 +31,17 @@ Click "Need help finding a gene?" to use the gene's name to get its Ensembl ID, 
 
 Click "Download Data"
 
-In Excel, filter to include only the following consequences: 
-    Coding_sequence_variant
-    Frameshift_variant
-    Inframe_deletion
-    Inframe_insertion
-    Missense_variant
-    Synonymous_variant
-    Start_lost
-    Start_retained_variant
-    Stop_gained
-    Stop_lost
-    Stop_retained_variant
+In Excel, filter to include only the following consequences:  
+    Coding_sequence_variant  
+    Frameshift_variant  
+    Inframe_deletion  
+    Inframe_insertion  
+    Missense_variant  
+    Synonymous_variant  
+    Start_lost  
+    Start_retained_variant  
+    Stop_gained  
+    Stop_lost  
+    Stop_retained_variant  
 
 In a new spreadsheet, make your first column "Gene" and your second "Position." Paste the positions from the .csv you just filtered and put the gene name in each row. Save this as "GeneName_Variant_Locations.txt" MAKE SURE IT IS SAVED AS A .TXT FILE.
