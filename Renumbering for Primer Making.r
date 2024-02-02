@@ -4,12 +4,25 @@
 
 #Example files can be found in GitHub repository
 
+if (!require(tidyverse)) install.packages("tidyverse")
 library(tidyverse)
 
-setwd("Working/Directory/Here")
+# VARIABLES YOU NEED TO CHANGE
+# File paths
+working_directory_path <- "Working/Directory/Here" # Make this the folder where all of your input files are and where you want your output files to go
+sequence_raw_path <- "Sequence_From_UCSCGenomeBrowser.txt" # Make sure this is a .txt file and in your working directory
+variant_locations_path <- "Variant_Locations.txt" # Make sure this is a .txt file and in your working directory
+
+# Genomic Coordinates - If on the positive strand (transcribed left to right on genome browser), start has a lower number than stop
+#                       If on the negative strand (transcribed right to left on genome browser), start has a higher number than stop
+start <- 108811175
+stop <- 108841609
+
+# THIS SECTION SHOULD REMAIN UNCHANGED
+setwd(working_directory_path)
 
 #Read in sequence txt file with sequence copy-pasted from the genome browser with header "Sequence"
-sequence_raw <- data.frame(read.delim("Sequence_From_GenomeBrowser.txt"), stringsAsFactors = FALSE)
+sequence_raw <- data.frame(read.delim(sequence_raw_path), stringsAsFactors = FALSE)
 
 #Combine rows into a single row
 sequence_raw$group <- 1
@@ -21,10 +34,6 @@ sequence <- sequence_merged$Sequence
 #Split sequence into individual characters
 sequence <- unlist(strsplit(sequence, split = ""))
 
-#Assign genomic coordinates to sequence (make sure you consider whether the gene is transcribed on the + or - strand!)
-#No need for chromosome number, just start and stop loci
-start <- 108811175
-stop <- 108841609
 names(sequence) <- seq(from = start, to = stop)
 
 #Find exons based on capital letters (introns are lowercase, exons are uppercase)
@@ -46,7 +55,7 @@ sequence_junctions[junctions]  <- "J"
 sequence_trimmed <- sequence_junctions[which(uppers == 1)]
 
 #Read in list of variant locations
-variants <- read.delim("Variant_Locations.txt")
+variants <- read.delim(variant_locations_path)
 
 #Use variant list to change snps from base to "SNP" to easily see where they are
 sequence_trimmed[names(sequence_trimmed) %in% variants$Position] <- "SNP"
@@ -68,10 +77,11 @@ to_avoid <- paste(to_avoid, collapse = ", ")
 
 #Output a CSV with all relevant information
 #This is all just to make the final document easier to read
+geneName <- unique(variants$Gene)
 results <- data.frame(Result = c("Sequence For IDT", "SNPs To Avoid", "Exon Junctions"),
                         Data = c(sequenceForIDT, to_avoid, junctions))
 
 results <- results %>% add_row(Result = "", Data = "", .after = 1)
 results <- results %>% add_row(Result = "", Data = "", .after = 3)
 
-write.table(results, file = "IDT_Inputs.txt", col.names = FALSE, row.names = FALSE)
+write.table(results, file = paste0(geneName, "_IDT_Inputs.txt"), col.names = FALSE, row.names = FALSE)
